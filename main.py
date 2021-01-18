@@ -6,9 +6,14 @@ palindromy = []
 
 def palindrom(linie):
     for slowo in linie:
-        if slowo == slowo[::-1]:
-            palindromy.append(slowo)
+        if (slowo != ""):
+            if slowo == slowo[::-1]:
+                palindromy.append(slowo)
+
+
     return palindromy
 
 print(palindrom(linie))
 print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
+
+
