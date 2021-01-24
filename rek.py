@@ -1,4 +1,6 @@
 
+import time
+
 plik = open('dic\slowa.txt', 'r').read()
 linie = plik.split('\n')
 
@@ -13,10 +15,15 @@ def palindrom(slowo):
         else:
             return False
 
+przed = time.perf_counter()
 for slowo in linie:
-    if(palindrom(slowo)==True):
-        palindromy.append(slowo)
+    if (slowo != ""):
+        if(palindrom(slowo)==True):
+            palindromy.append(slowo)
+po = time.perf_counter()
 
-print(palindromy)
+print(f"Znaleziono w {po - przed:0.4f} sekund")
+print('Znalezione palindromy:', palindromy)
 print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
+
 
