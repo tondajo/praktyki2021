@@ -1,7 +1,7 @@
 
 import time
 
-plik = open('dic\slowa.txt', 'r').read()
+plik = open('dic\slowa.txt', "r", encoding="utf-8")
 linie = plik.split('\n')
 
 palindromy = []
