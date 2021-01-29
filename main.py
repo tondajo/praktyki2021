@@ -5,10 +5,10 @@ palindromy = []
 
 
 def reverse(slowo):
-    odroconeslowo = ''
+    odwroconeslowo = ''
     for litera in slowo:
-        odroconeslowo = litera + odroconeslowo
-    return odroconeslowo
+        odwroconeslowo = litera + odwroconeslowo
+    return odwroconeslowo
 
 
 def palindrom(linie):
