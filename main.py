@@ -1,14 +1,28 @@
 import time
+import argparse
 
 linie = []
 palindromy = []
 
+wyświetlanie = ""
+czas = ""
+
+parser = argparse.ArgumentParser(description='Wyszukiwanie palindromów')
+parser.add_argument('--wyświetlanie', '-w', type=str, help='Umożliwia wyświetlanie wyszukanych palindromów', )
+parser.add_argument('--czas', '-c', type=str, help='Umożliwia wyświetlanie czasu wykonania programu', )
+parser.add_argument('--funkcja', '-f', type=str, help='Wybiera w jaki sposób zostanie wykonany program', )
+parser.add_argument('--plik', '-p', type=str, help='Wybiera plik ze słownikiem', )
+args = parser.parse_args()
+
+print(args.czas)
+
+
 
 def reverse(slowo):
-    odwroconeslowo = ''
+    odwroconeSlowo = ''
     for litera in slowo:
-        odwroconeslowo = litera + odwroconeslowo
-    return odwroconeslowo
+        odwroconeSlowo = litera + odwroconeSlowo
+    return odwroconeSlowo
 
 
 def palindrom(linie):
@@ -22,10 +36,12 @@ def palindrom(linie):
 
 def main():
     przed = time.perf_counter()
-    print('Znalezione palindromy:', palindrom(linie))
+    if args.wyświetlanie == 'tak':
+        print('Znalezione palindromy:', palindrom(linie))
     print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
     po = time.perf_counter()
-    print(f"Znaleziono w {po - przed:0.4f} sekund")
+    if args.czas == 'tak':
+        print(f"Znaleziono w {po - przed:0.4f} sekund")
 
 
 
