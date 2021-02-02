@@ -18,7 +18,15 @@ parser.add_argument('--funkcja', '-f', type=str, help='Wybiera w jaki sposób zo
 parser.add_argument('--plik', '-p', type=str, help='Wybiera plik ze słownikiem: (ścieżka do pliku)', )
 args = parser.parse_args()
 
+def elementyListy(lista):
+    x = 0
+    for element in lista:
+        x += 1
+    return x
+
+
 def palindrom1(linie):
+    global palindrom1
     with open('dic\slowa.txt', "r", encoding="utf-8") as plik:
         linie = [linie[:-(linie[-1] == '\n') or len(linie) + 1] for linie in plik]
         for slowo in linie:
@@ -40,7 +48,7 @@ def palindrom(linie):
         for slowo in linie:
             if reverse(slowo) == slowo:
                 palindromy.append(slowo)
-    return palindromy
+    return str(palindromy)
 
 
 def main():
@@ -51,7 +59,7 @@ def main():
         if args.wyświetlanie == 'tak':
             print('Znalezione palindromy:', palindrom1(linie))
     if args.funkcja == '2':
-        print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
+        print('W słowniku znajduje się ', elementyListy(palindromy), 'palindromów.')
         if args.wyświetlanie == 'tak':
             print('Znalezione palindromy:', palindrom(linie))
     po = time.perf_counter()
