@@ -1,10 +1,10 @@
 import time
 import argparse
-import os.path
 
 linie = []
 palindromy = []
-palindromy1 = []
+palindromy_2 = []
+
 
 wyświetlanie = ""
 czas = ""
@@ -25,15 +25,14 @@ def elementyListy(lista):
     return x
 
 
-def palindrom1(linie):
-    global palindrom1
+def wyszukiwaniePalindromow(linie):
     with open('dic\slowa.txt', "r", encoding="utf-8") as plik:
         linie = [linie[:-(linie[-1] == '\n') or len(linie) + 1] for linie in plik]
         for slowo in linie:
             if slowo != "":
                 if slowo == slowo[::-1]:
-                    palindromy1.append(slowo)
-    return palindromy1
+                    palindromy.append(slowo)
+    return palindromy
 
 def reverse(slowo):
     odwroconeSlowo = ''
@@ -42,30 +41,29 @@ def reverse(slowo):
     return odwroconeSlowo
 
 
-def palindrom(linie):
+def wyszukiwaniePalindromow_2(linie):
     with open('dic\slowa.txt', "r", encoding="utf-8") as plik:
         linie = [linie[:-(linie[-1] == '\n') or len(linie) + 1] for linie in plik]
         for slowo in linie:
             if reverse(slowo) == slowo:
-                palindromy.append(slowo)
-    return str(palindromy)
+                palindromy_2.append(slowo)
+    return str(palindromy_2)
 
 
 def main():
     przed = time.perf_counter()
-
     if args.funkcja == '1':
-        print('W słowniku znajduje się ', len(palindromy1), 'palindromów.')
+        palindromy = wyszukiwaniePalindromow(linie)
+        print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
         if args.wyświetlanie == 'tak':
-            print('Znalezione palindromy:', palindrom1(linie))
+            print('Znalezione palindromy:', wyszukiwaniePalindromow(linie))
     if args.funkcja == '2':
-        print('W słowniku znajduje się ', elementyListy(palindromy), 'palindromów.')
+        print('W słowniku znajduje się ', elementyListy(palindromy_2), 'palindromów.')
         if args.wyświetlanie == 'tak':
-            print('Znalezione palindromy:', palindrom(linie))
+            print('Znalezione palindromy:', wyszukiwaniePalindromow_2(linie))
     po = time.perf_counter()
     if args.czas == 'tak':
         print(f"Znaleziono w {po - przed:0.4f} sekund")
-
 
 
 if __name__ == "__main__":
