@@ -10,13 +10,14 @@ wyświetlanie = ""
 czas = ""
 funkcja = ""
 
-
-parser = argparse.ArgumentParser(description='Wyszukiwanie palindromów')
-parser.add_argument('--wyświetlanie', '-w', type=str, help='Umożliwia wyświetlanie wyszukanych palindromów: tak/nie ')
-parser.add_argument('--czas', '-c', type=str, help='Umożliwia wyświetlanie czasu wykonania programu: tak/nie', )
-parser.add_argument('--funkcja', '-f', type=str, help='Wybiera w jaki sposób zostanie wykonany program: 1/2', )
-parser.add_argument('--plik', '-p', type=str, help='Wybiera plik ze słownikiem: (ścieżka do pliku)', )
-args = parser.parse_args()
+def parseArguments():
+    parser = argparse.ArgumentParser(description='Wyszukiwanie palindromów')
+    parser.add_argument('--wyświetlanie', '-w', action='store_true', help='Umożliwia wyświetlanie wyszukanych palindromów')
+    parser.add_argument('--czas', '-c', type=str, help='Umożliwia wyświetlanie czasu wykonania programu: tak/nie', )
+    parser.add_argument('--funkcja', '-f', type=str, help='Wybiera w jaki sposób zostanie wykonany program: 1/2', )
+    parser.add_argument('--plik', '-p', type=str, help='Wybiera plik ze słownikiem: (ścieżka do pliku)', required=True, )
+    args = parser.parse_args()
+    return args
 
 def elementyListy(lista):
     x = 0
@@ -25,8 +26,8 @@ def elementyListy(lista):
     return x
 
 
-def wyszukiwaniePalindromow(linie):
-    with open('dic\slowa.txt', "r", encoding="utf-8") as plik:
+def wyszukiwaniePalindromow(linie, args):
+    with open(args.plik, "r", encoding="utf-8") as plik:
         linie = [linie[:-(linie[-1] == '\n') or len(linie) + 1] for linie in plik]
         for slowo in linie:
             if slowo != "":
@@ -41,8 +42,8 @@ def reverse(slowo):
     return odwroconeSlowo
 
 
-def wyszukiwaniePalindromow_2(linie):
-    with open('dic\slowa.txt', "r", encoding="utf-8") as plik:
+def wyszukiwaniePalindromow_2(linie, args):
+    with open(args.plik, "r", encoding="utf-8") as plik:
         linie = [linie[:-(linie[-1] == '\n') or len(linie) + 1] for linie in plik]
         for slowo in linie:
             if reverse(slowo) == slowo:
@@ -50,24 +51,22 @@ def wyszukiwaniePalindromow_2(linie):
     return str(palindromy_2)
 
 
-def main():
+def main(args):
+    palindromy = wyszukiwaniePalindromow(linie, args)
     przed = time.perf_counter()
-    if args.funkcja == '1':
-        palindromy = wyszukiwaniePalindromow(linie)
-        print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
-        if args.wyświetlanie == 'tak':
-            print('Znalezione palindromy:', wyszukiwaniePalindromow(linie))
-    if args.funkcja == '2':
-        print('W słowniku znajduje się ', elementyListy(palindromy_2), 'palindromów.')
-        if args.wyświetlanie == 'tak':
-            print('Znalezione palindromy:', wyszukiwaniePalindromow_2(linie))
+    print('W słowniku znajduje się ', len(palindromy), 'palindromów.')
+    if args.wyświetlanie:
+        if args.funkcja == '1':
+            print('Znalezione palindromy:', sorted(set(wyszukiwaniePalindromow(linie, args))))
+        if args.funkcja == '2':
+            print('Znalezione palindromy:', wyszukiwaniePalindromow_2(linie, args))
     po = time.perf_counter()
     if args.czas == 'tak':
         print(f"Znaleziono w {po - przed:0.4f} sekund")
 
 
 if __name__ == "__main__":
-    main()
+    main(parseArguments())
 
 
 
